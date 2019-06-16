@@ -1,0 +1,212 @@
+# there is .git folder in root folder of project where all info regarding changes is saved.. and it shows state of fodler at some point when folder is deployed..
+
+# so when we run    git status    is shows unsaved changes based on current state of .git folder
+
+git status # shows changes
+
+git diff # shows all changes in files
+
+
+# You commit changes to a Git repository in two steps:
+
+# 1. Add one or more files to the staging area.
+# 2. Commit everything in the staging area.
+# To add a file to the staging area, use 
+
+git add filename
+
+git add path/filename
+
+git diff -r HEAD # to see differences compared to particular version ..in this case HEAD means last commited
+
+
+# simple one called Nano. If you type nano filename, it will open filename for editing (or create it if it doesn't already exist). You can then move around with the arrow keys, delete characters with the backspace key, and so on. You can also do a few other operations with control-key combinations:
+
+
+# To view the details of a specific commit, you use the command git show with the first few characters of the commit's hash. For example, the command git show 0da2f7
+
+# A hash is like an absolute path: it identifies a specific commit. Another way to identify a commit is to use the equivalent of a relative path. The special label HEAD, which we saw in the previous chapter, always refers to the most recent commit. The label HEAD~1 then refers to the commit before it, while HEAD~2 refers to the commit before that, and so on
+
+
+git show HEAF~1
+
+
+
+
+
+
+
+
+
+
+# Ctrl-K: delete a line.
+# Ctrl-U: un-delete a line.
+# Ctrl-O: save the file ('O' stands for 'output').
+# Ctrl-X: exit the editor.
+
+
+To save the changes in the staging area, you use the command git commit. It always saves everything that is in the staging area as one unit: as you will see later, when you want to undo changes to a project, you undo all of a commit or none of it.
+
+git commit -m "Program appears to have become self-aware."
+
+# If you accidentally mistype a commit message, you can change it using the --amend flag.
+
+git commit --amend - m "new message"
+
+
+# The command git log is used to view the log of the project's history. Log entries are shown most recent first, and look like this:
+
+
+# The commit line displays a unique ID for the commit called a hash; we will explore these further in the next chapter. The other lines tell you who made the change, when, and what log message they wrote for the change.
+
+# When you run git log, Git automatically uses a pager to show one screen of output at a time. Press the space bar to go down a page or the 'q' key to quit.
+
+# A project's entire log can be overwhelming, so it's often useful to inspect only the changes to particular files or directories. You can do this using git log path, where path is the path to a specific file or directory. The log for a file shows changes made to that file; the log for a directory shows when files were added or deleted in that directory, rather than when the contents of the directory's files were changed.
+
+
+# git log displays the overall history of a project or file, but Git can give even more information: the command git annotate file shows who made the last change to each line of a file and when. For example, the first three lines of output from git annotate report.txt
+
+git annotate reports.txt
+
+# Data analysis often produces temporary or intermediate files that you don't want to save. You can tell it to stop paying attention to files you don't care about by creating a file in the root directory of your repository called .gitignore and storing a list of wildcard patterns that specify the files you don't want Git to pay attention to. For example, if .gitignore contains:
+
+build
+*.mpl
+# then Git will ignore any file or directory called build (and, if it's a directory, anything in it), as well as any file whose name ends in .mpl
+
+
+# Git can help you clean up files that you have told it you don't want. The command git clean -n will show you a list of files that are in the repository, but whose history Git is not currently tracking. A similar command git clean -f will then delete those files.
+
+# Use this command carefully: git clean only works on untracked files, so by definition, their history has not been saved. If you delete them with git clean -f, they're gone for good.
+
+
+# Like most complex pieces of software, Git allows you to change its default settings. To see what the settings are, you can use the command git config --list with one of three additional options:
+
+--system: settings for every user on this computer.
+--global: settings for every one of your projects.
+--local: settings for one specific project.
+# Each level overrides the one above it, so local settings (per-project) take precedence over global settings (per-user), which in turn take precedence over system settings (for all users on the computer).
+
+# to add new hidden files in Windows (for ex. .gitignore) use command in GIT Bash
+
+touch .gitignore
+
+
+# to create new branch just type
+
+git branch new_branch_name
+
+# to switch between master/branch
+
+git checkout master/branch_name
+
+# if want to merge go to destination master/branch, then type
+
+git merge branch_name
+
+# to save somewhere not commited changes..
+
+git stash
+
+git stach apply
+
+# to see remote repository
+
+git remote
+
+# to clone rep
+
+git clone clone_url
+
+# git stage specific files
+
+git add path/to/file
+
+# Undo changes to unstaged files?
+# Suppose you have made changes to a file, then decide you want to undo them. Your text editor may be able to do this, but a more reliable way is to let Git do the work. The command:
+
+git checkout -- filename
+
+
+# Undo changes to staged files?
+# At the start of this chapter you saw that git reset will unstage files that you previously staged using git add. By combining git reset with git checkout, you can undo changes to a file that you staged changes to. The syntax is as follows.
+
+git reset HEAD path/to/file
+git checkout -- path/to/file
+
+# restore an old version of a file
+
+git checkout 2242bd report.txt
+
+
+One more thing: there's another feature of git log that will come in handy here. Passing - then a number restricts the output to that many commits. For example, git log -3 report.txt shows you the last three commits involving report.txt
+
+# So far, you have seen how to undo changes to a single file at a time using git reset HEAD path/to/file
+
+# One way to do this is to give git reset a directory. For example, git reset HEAD data will unstage any files from the data directory. Even better, if you don't provide any files or directories, it will unstage everything. Even even better, HEAD is the default commit to unstage, so you can simply write git reset to unstage everything.
+
+# Similarly git checkout -- data will then restore the files in the data directory to their previous state. You can't leave the file argument completely blank, but recall from Introduction to Shell for Data Science that you can refer to the current directory as .. So git checkout -- . will revert all files in the current directory.
+
+# By default, every Git repository has a branch called master (which is why you have been seeing that word in Git's output in previous lessons). To list all of the branches in a repository, you can run the command git branch. The branch you are currently in will be shown with a * beside its name.
+
+git branch
+
+
+# switch from one branch to another?
+# You previously used git checkout with a commit hash to switch the repository state to that hash. You can also use git checkout with the name of a branch to switch to that branch.
+
+# In this exercise, you'll also make use of git rm. This removes the file (just like the shell command rm) then stages the removal of that file with git add, all in one step.
+
+
+# To merge two branches, you run git merge source destination (without .. between the two branch names). Git automatically opens an editor so that you can write a log message for the merge; you can either keep its default message or fill in something more informative
+
+
+git merge branch1 master
+
+
+When there is a conflict during a merge, Git tells you that there's a problem, and running git status after the merge reminds you which files have conflicts that you need to resolve by printing both modified: beside the files' names.
+
+Inside the file, Git leaves markers that look like this to tell you where the conflicts occurred:
+
+<<<<<<< destination-branch-name
+...changes from the destination branch...
+=======
+...changes from the source branch...
+>>>>>>> source-branch-name
+(In many cases, the destination branch name will be HEAD, because you will be merging into the current branch.) To resolve the conflict, edit the file to remove the markers and make whatever other changes are needed to reconcile the changes, then commit those changes.
+
+If you want to create a repository for a new project, you can simply say git init project-name, where "project-name" is the name you want the new repository's root directory to have.
+
+Use a single command to create a new Git repository called optical below your home directory.
+
+# to create new repository
+
+git init project-name
+
+# to copy existing repo .. link to project maybe (https://github.com/datacamp/project.git)
+
+git clone /home/thunk/repo dental
+
+git clone https://github.com/datacamp/project.git/home/thunk/repo
+
+# You can add more remotes using:
+
+git remote add remote-name URL
+
+# and remove existing ones using:
+
+git remote rm remote-name
+
+# to see links associated with repo
+
+git remote
+
+Pulling changes is straightforward: the command git pull remote branch gets everything in branch in the remote repository identified by remote and merges it into the current branch of your local repository. For example, if you are in the quarterly-report branch of your local repository, the command:
+
+# pulles without If you want to avoid the editor from opening, you can use the --no-edit flag.
+
+git pull --no-edit origin master
+
+
+
+
